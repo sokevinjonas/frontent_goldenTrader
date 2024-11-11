@@ -5,7 +5,6 @@ interface Post {
   id: number;
   author: string;
   avatar: string;
-  title: string;
   content: string;
   image?: string;
   likes: number;
@@ -24,7 +23,7 @@ export class HomePage implements OnInit {
       id: 1,
       author: 'Alex Trading Pro',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'Analyse BTC/USD',
+      // title: 'Analyse BTC/USD',
       content:
         "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
       image: 'https://placehold.co/800x450',
@@ -37,7 +36,7 @@ export class HomePage implements OnInit {
       id: 2,
       author: 'CryptoSage',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'ETH breakout imminent',
+      // title: 'ETH breakout imminent',
       content:
         'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
       likes: 189,
@@ -49,7 +48,7 @@ export class HomePage implements OnInit {
       id: 3,
       author: 'Alex Trading Pro',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'Analyse BTC/USD',
+      // title: 'Analyse BTC/USD',
       content:
         "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
       image: 'https://placehold.co/800x450',
@@ -62,7 +61,7 @@ export class HomePage implements OnInit {
       id: 4,
       author: 'CryptoSage',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'ETH breakout imminent',
+      // title: 'ETH breakout imminent',
       content:
         'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
       likes: 189,
@@ -74,7 +73,7 @@ export class HomePage implements OnInit {
       id: 5,
       author: 'Alex Trading Pro',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'Analyse BTC/USD',
+      // title: 'Analyse BTC/USD',
       content:
         "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
       image: 'https://placehold.co/800x450',
@@ -87,7 +86,7 @@ export class HomePage implements OnInit {
       id: 6,
       author: 'CryptoSage',
       avatar: 'assets/avatars/avatar-man.png',
-      title: 'ETH breakout imminent',
+      // title: 'ETH breakout imminent',
       content:
         'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
       likes: 189,

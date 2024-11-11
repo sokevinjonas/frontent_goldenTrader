@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="gold-text">GoldenTrade</ion-title>
+    <ion-title class="gold-text">GoldenTrader</ion-title>
     <ion-buttons slot="end">
       <ion-button
         expand="block"
@@ -44,14 +44,9 @@
       </ion-card-header>
 
       <ion-card-content>
-        <h3>{{post.title}}</h3>
+        <!-- <h3>{{post.title}}</h3> -->
         <p>{{post.content}}</p>
-        <img
-          *ngIf="post.image"
-          [src]="post.image"
-          [alt]="post.title"
-          class="post-image"
-        />
+        <img *ngIf="post.image" [src]="post.image" class="post-image" />
         <div class="interaction-buttons">
           <ion-button fill="clear" (click)="handleLike(post, true)">
             <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
