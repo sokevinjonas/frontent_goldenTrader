@@ -1,13 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title class="gold-text">GoldenTrade</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Posts Feed -->
+  <ion-list>
+    <ion-card *ngFor="let post of posts" class="post-card">
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img [src]="post.avatar" [alt]="post.author" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{post.author}}</h2>
+            <p>{{post.timestamp}}</p>
+          </ion-label>
+          <ion-button
+            slot="end"
+            [fill]="post.isFollowed ? 'outline' : 'solid'"
+            (click)="toggleFollow(post)"
+            [color]="post.isFollowed ? 'medium' : 'warning'"
+          >
+            {{post.isFollowed ? 'Suivi' : 'Suivre'}}
+          </ion-button>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content>
+        <h3>{{post.title}}</h3>
+        <p>{{post.content}}</p>
+        <img
+          *ngIf="post.image"
+          [src]="post.image"
+          [alt]="post.title"
+          class="post-image"
+        />
+        <div class="interaction-buttons">
+          <ion-button fill="clear" (click)="handleLike(post, true)">
+            <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+            {{post.likes}}
+          </ion-button>
+          <ion-button fill="clear" (click)="handleLike(post, false)">
+            <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
+            {{post.dislikes}}
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>

@@ -1,13 +1,77 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="ion-padding">
+    <div class="ion-text-center ion-margin-bottom">
+      <img src="assets/logo.svg" alt="Logo" class="logo" />
+      <p class="slogan">
+        Rejoignez notre communauté d'investisseurs et d'analystes
+      </p>
+    </div>
+    <h1 class="ion-text-center gold-text">Créer votre compte</h1>
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+      class="ion-margin-top"
+    >
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input
+            type="text"
+            formControlName="name"
+            placeholder="Ex:Ouedraogo Aziz"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input
+            type="email"
+            formControlName="email"
+            placeholder="Ex: aziz@gmail.com"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Mot de passe</ion-label>
+          <ion-input
+            type="password"
+            formControlName="password"
+            placeholder="******"
+          ></ion-input>
+        </ion-item>
+        <ion-radio-group formControlName="userType">
+          <ion-list-header class="ion-margin-top"
+            >Inscrivez-vous en tant que:</ion-list-header
+          >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Investisseur</ion-label>
+                  <ion-radio value="investor"></ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Analyste</ion-label>
+                  <ion-radio value="analyst"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-radio-group>
+      </ion-list>
+      <ion-button
+        type="submit"
+        expand="block"
+        color="warning"
+        [disabled]="registerForm.invalid"
+        class="ion-margin-top"
+      >
+        S'inscrire
+      </ion-button>
+    </form>
+    <p class="ion-text-center ion-margin-top">
+      Déjà inscrit ?
+      <a [routerLink]="['/login']" class="link-warning">Connectez-vous</a>
+    </p>
+  </div>
 </ion-content>
