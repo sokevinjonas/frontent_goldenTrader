@@ -2,7 +2,15 @@
   <ion-toolbar>
     <ion-title class="gold-text">GoldenTrade</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button
+        expand="block"
+        fill="solid"
+        (click)="newPublication()"
+        shape="round"
+      >
+        <ion-icon size="large" name="add-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear">
         <ion-icon name="notifications-outline"></ion-icon>
       </ion-button>
     </ion-buttons>

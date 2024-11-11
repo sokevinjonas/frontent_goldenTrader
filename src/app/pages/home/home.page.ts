@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { AddPublicationComponent } from 'src/app/shared/components/add-publication/add-publication.component';
 interface Post {
   id: number;
   author: string;
@@ -43,13 +45,63 @@ export class HomePage implements OnInit {
       isFollowed: true,
       timestamp: 'Il y a 3h',
     },
+    {
+      id: 3,
+      author: 'Alex Trading Pro',
+      avatar: 'assets/avatars/avatar-man.png',
+      title: 'Analyse BTC/USD',
+      content:
+        "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
+      image: 'https://placehold.co/800x450',
+      likes: 245,
+      dislikes: 12,
+      isFollowed: false,
+      timestamp: 'Il y a 2h',
+    },
+    {
+      id: 4,
+      author: 'CryptoSage',
+      avatar: 'assets/avatars/avatar-man.png',
+      title: 'ETH breakout imminent',
+      content:
+        'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
+      likes: 189,
+      dislikes: 8,
+      isFollowed: true,
+      timestamp: 'Il y a 3h',
+    },
+    {
+      id: 5,
+      author: 'Alex Trading Pro',
+      avatar: 'assets/avatars/avatar-man.png',
+      title: 'Analyse BTC/USD',
+      content:
+        "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
+      image: 'https://placehold.co/800x450',
+      likes: 245,
+      dislikes: 12,
+      isFollowed: false,
+      timestamp: 'Il y a 2h',
+    },
+    {
+      id: 6,
+      author: 'CryptoSage',
+      avatar: 'assets/avatars/avatar-man.png',
+      title: 'ETH breakout imminent',
+      content:
+        'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
+      likes: 189,
+      dislikes: 8,
+      isFollowed: true,
+      timestamp: 'Il y a 3h',
+    },
   ];
 
   currentUser = {
     name: 'Thomas',
     isNewUser: true,
   };
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
   toggleFollow(post: Post) {
@@ -62,5 +114,11 @@ export class HomePage implements OnInit {
     } else {
       post.dislikes++;
     }
+  }
+  async newPublication() {
+    const modal = await this.modalController.create({
+      component: AddPublicationComponent,
+    });
+    return await modal.present();
   }
 }
