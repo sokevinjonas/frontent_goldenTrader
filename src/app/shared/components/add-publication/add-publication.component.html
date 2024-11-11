@@ -1,13 +1,77 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Mon Modal</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Créer une publication</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismissModal()">Fermer</ion-button>
+      <ion-button
+        type="submit"
+        form="post-form"
+        expand="block"
+        fill="clear"
+        shape="round"
+      >
+        Publier
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <!-- Contenu de votre modal -->
-  <p>Contenu du modal ici...</p>
+<ion-content class="ion-padding">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" id="post-form">
+    <ion-item class="mb-3">
+      <ion-input
+        type="text"
+        formControlName="title"
+        placeholder="Titre de la publication"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="mb-3">
+      <ion-textarea
+        rows="5"
+        formControlName="content"
+        placeholder="Qu'est-ce que vous avez en tête ?"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item class="mb-3 flex items-center">
+      <input type="file" (change)="handleImageUpload($event)" class="hidden" />
+      <ion-button fill="clear" (click)="openImagePicker()">
+        <ion-icon slot="icon-only" name="image-outline"></ion-icon>
+        <span>Ajouter une image</span>
+      </ion-button>
+      <div class="ml-4" *ngIf="previewImage">
+        <ion-thumbnail>
+          <img [src]="previewImage" alt="Aperçu de l'image" />
+        </ion-thumbnail>
+        <ion-button fill="clear" (click)="previewImage = null">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </form>
 </ion-content>
+<ion-footer class="ion-padding bg-[#f0f2f5] border-t">
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-button fill="clear" size="small">
+          <ion-icon name="paperclip"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small">
+          <ion-icon name="image"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-end">
+        <ion-button type="button" fill="clear" (click)="reset()"
+          >Annuler</ion-button
+        >
+        <ion-button type="submit" form="post-form" class="ml-2"
+          >Publier</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
