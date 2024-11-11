@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -10,6 +11,10 @@ import { ModalController } from '@ionic/angular';
 export class AddPublicationComponent implements OnInit {
   postForm: FormGroup;
   previewImage: string | null = null;
+  images = [
+    { src: 'https://placehold.co/800x450', alt: 'Image 1' },
+    { src: 'https://placehold.co/800x450', alt: 'Image 1' },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,19 +39,7 @@ export class AddPublicationComponent implements OnInit {
       this.dismissModal();
     }
   }
-  handleImageUpload(event: Event) {
-    // const target = event.target as HTMLInputElement;
-    // if (target.files?.[0]) {
-    //   this.previewImage = URL.createObjectURL(target.files[0]);
-    // } else {
-    //   this.previewImage = null;
-    // }
-  }
-  openImagePicker() {
-    // Logique pour ouvrir le sélecteur d'image ici
-    // et définir la prévisualisation
-    this.previewImage = 'https://placehold.co/150x150';
-  }
+
   reset() {
     this.postForm.reset();
     this.previewImage = null;

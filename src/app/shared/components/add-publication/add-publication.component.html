@@ -5,14 +5,15 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Créer une publication</ion-title>
+    <ion-title>Nouvelle publication</ion-title>
     <ion-buttons slot="end">
       <ion-button
         type="submit"
         form="post-form"
         expand="block"
-        fill="clear"
+        fill="solid"
         shape="round"
+        color="primary"
       >
         Publier
       </ion-button>
@@ -21,57 +22,43 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="auto">
+      <ion-avatar>
+        <img src="assets/avatars/avatar-man.png" alt="SO Jonas" />
+      </ion-avatar>
+    </ion-col>
+    <ion-col>
+      <ion-label>
+        <h2>Jonas SO</h2>
+        <p>Mon compte</p>
+      </ion-label>
+    </ion-col>
+  </ion-row>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()" id="post-form">
-    <ion-item class="mb-3">
-      <ion-input
-        type="text"
-        formControlName="title"
-        placeholder="Titre de la publication"
-      ></ion-input>
-    </ion-item>
-    <ion-item class="mb-3">
+    <ion-item>
       <ion-textarea
-        rows="5"
+        rows="6"
         formControlName="content"
-        placeholder="Qu'est-ce que vous avez en tête ?"
+        placeholder="Partagez vos pensées..."
+        class="ion-text-wrap"
       ></ion-textarea>
     </ion-item>
-    <ion-item class="mb-3 flex items-center">
-      <input type="file" (change)="handleImageUpload($event)" class="hidden" />
-      <ion-button fill="clear" (click)="openImagePicker()">
-        <ion-icon slot="icon-only" name="image-outline"></ion-icon>
-        <span>Ajouter une image</span>
-      </ion-button>
-      <div class="ml-4" *ngIf="previewImage">
-        <ion-thumbnail>
-          <img [src]="previewImage" alt="Aperçu de l'image" />
-        </ion-thumbnail>
-        <ion-button fill="clear" (click)="previewImage = null">
-          <ion-icon name="close"></ion-icon>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="auto">
+        <ion-button expand="block" fill="outline" shape="round" color="primary">
+          <ion-icon name="image-outline"></ion-icon>
+          Choisir une image dans la Galerie
         </ion-button>
-      </div>
-    </ion-item>
-  </form>
-</ion-content>
-<ion-footer class="ion-padding bg-[#f0f2f5] border-t">
-  <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <ion-button fill="clear" size="small">
-          <ion-icon name="paperclip"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" size="small">
-          <ion-icon name="image"></ion-icon>
-        </ion-button>
-      </ion-col>
-      <ion-col class="ion-text-end">
-        <ion-button type="button" fill="clear" (click)="reset()"
-          >Annuler</ion-button
-        >
-        <ion-button type="submit" form="post-form" class="ml-2"
-          >Publier</ion-button
-        >
       </ion-col>
     </ion-row>
-  </ion-grid>
-</ion-footer>
+    <ion-row class="ion-margin-top">
+      <ion-col size="auto" *ngFor="let image of images">
+        <ion-img [src]="image.src" [alt]="image.alt"></ion-img>
+        <ion-button color="danger">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
