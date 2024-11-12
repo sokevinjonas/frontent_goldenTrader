@@ -26,11 +26,12 @@
       <ion-card-header>
         <ion-item lines="none">
           <ion-avatar slot="start">
-            <img [src]="post.avatar" [alt]="post.author" />
+            <!-- <img [src]="post.avatar" [alt]="post.author" /> -->
+            <img src="assets/avatars/avatar-man.png" alt="" />
           </ion-avatar>
           <ion-label>
-            <h2>{{post.author}}</h2>
-            <p>{{post.timestamp}}</p>
+            <h2>{{post.user.name}}</h2>
+            <p>{{serviceGLobal.getTimeAgo(post.created_at)}}</p>
           </ion-label>
           <ion-button
             slot="end"
@@ -38,7 +39,7 @@
             (click)="toggleFollow(post)"
             [color]="post.isFollowed ? 'medium' : 'warning'"
           >
-            {{post.isFollowed ? 'Suivi' : 'Suivre'}}
+            {{ post.isFollowed ? 'Abonné' : 'S’abonner' }}
           </ion-button>
         </ion-item>
       </ion-card-header>
@@ -46,8 +47,9 @@
       <ion-card-content>
         <!-- <h3>{{post.title}}</h3> -->
         <p>{{post.content}}</p>
-        <img *ngIf="post.image" [src]="post.image" class="post-image" />
-        <div class="interaction-buttons">
+        <!-- <img *ngIf="post.image" [src]="post.image" class="post-image" /> -->
+        <img src="https://placehold.co/800x450" alt="" />
+        <!-- <div class="interaction-buttons">
           <ion-button fill="clear" (click)="handleLike(post, true)">
             <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
             {{post.likes}}
@@ -55,6 +57,16 @@
           <ion-button fill="clear" (click)="handleLike(post, false)">
             <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
             {{post.dislikes}}
+          </ion-button>
+        </div> -->
+        <div class="interaction-buttons">
+          <ion-button fill="clear">
+            <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+            0
+          </ion-button>
+          <ion-button fill="clear">
+            <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
+            0
           </ion-button>
         </div>
       </ion-card-content>

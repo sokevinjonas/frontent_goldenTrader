@@ -1,119 +1,100 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Plublications } from 'src/app/core/interfaces/publications';
+import { GlobalService } from 'src/app/core/services/global.service';
 import { AddPublicationComponent } from 'src/app/shared/components/add-publication/add-publication.component';
-interface Post {
-  id: number;
-  author: string;
-  avatar: string;
-  content: string;
-  image?: string;
-  likes: number;
-  dislikes: number;
-  isFollowed: boolean;
-  timestamp: string;
-}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  posts: Post[] = [
-    {
-      id: 1,
-      author: 'Alex Trading Pro',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'Analyse BTC/USD',
-      content:
-        "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
-      image: 'https://placehold.co/800x450',
-      likes: 245,
-      dislikes: 12,
-      isFollowed: false,
-      timestamp: 'Il y a 2h',
-    },
-    {
-      id: 2,
-      author: 'CryptoSage',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'ETH breakout imminent',
-      content:
-        'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
-      likes: 189,
-      dislikes: 8,
-      isFollowed: true,
-      timestamp: 'Il y a 3h',
-    },
-    {
-      id: 3,
-      author: 'Alex Trading Pro',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'Analyse BTC/USD',
-      content:
-        "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
-      image: 'https://placehold.co/800x450',
-      likes: 245,
-      dislikes: 12,
-      isFollowed: false,
-      timestamp: 'Il y a 2h',
-    },
-    {
-      id: 4,
-      author: 'CryptoSage',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'ETH breakout imminent',
-      content:
-        'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
-      likes: 189,
-      dislikes: 8,
-      isFollowed: true,
-      timestamp: 'Il y a 3h',
-    },
-    {
-      id: 5,
-      author: 'Alex Trading Pro',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'Analyse BTC/USD',
-      content:
-        "Signal d'achat sur Bitcoin : support crucial à 62000$, RSI en zone de survente. Objectif : 68000$ 🎯",
-      image: 'https://placehold.co/800x450',
-      likes: 245,
-      dislikes: 12,
-      isFollowed: false,
-      timestamp: 'Il y a 2h',
-    },
-    {
-      id: 6,
-      author: 'CryptoSage',
-      avatar: 'assets/avatars/avatar-man.png',
-      // title: 'ETH breakout imminent',
-      content:
-        'Ethereum montre des signes de cassure haussière. Niveau clé à surveiller : 3200$ 📈',
-      likes: 189,
-      dislikes: 8,
-      isFollowed: true,
-      timestamp: 'Il y a 3h',
-    },
-  ];
-
+  posts: Plublications[] = [];
   currentUser = {
     name: 'Thomas',
     isNewUser: true,
   };
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    protected serviceGLobal: GlobalService
+  ) {}
 
-  ngOnInit() {}
-  toggleFollow(post: Post) {
-    post.isFollowed = !post.isFollowed;
+  ngOnInit() {
+    this.allPublication();
+  }
+  allPublication() {
+    this.serviceGLobal.FilActualisation().subscribe({
+      next: (data) => {
+        this.posts = data.data;
+        console.log(this.posts);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des publications', error);
+      },
+    });
   }
 
-  handleLike(post: Post, isLike: boolean) {
-    if (isLike) {
-      post.likes++;
+  follow(userId: number) {
+    this.serviceGLobal.followUser(userId).subscribe({
+      next: (response) => {
+        console.log('Utilisateur suivi avec succès', response);
+      },
+      error: (error) => {
+        console.error("Erreur lors du suivi de l'utilisateur", error);
+      },
+    });
+  }
+
+  unfollow(userId: number) {
+    this.serviceGLobal.unfollowUser(userId).subscribe({
+      next: (response) => {
+        console.log('Arrêt du suivi avec succès', response);
+      },
+      error: (error) => {
+        console.error(
+          "Erreur lors de l'arrêt du suivi de l'utilisateur",
+          error
+        );
+      },
+    });
+  }
+  toggleFollow(post: Plublications) {
+    const userId = post.user.id;
+
+    if (post.isFollowed) {
+      this.serviceGLobal.unfollowUser(userId).subscribe(
+        () => {
+          // Met à jour isFollowed pour tous les posts du même utilisateur
+          this.posts.forEach((p) => {
+            if (p.user.id === userId) {
+              p.isFollowed = false;
+            }
+          });
+          console.log(`Arrêt du suivi de l'utilisateur ${userId}`);
+        },
+        (error) => {
+          console.error("Erreur lors du désuivi de l'utilisateur", error);
+        }
+      );
     } else {
-      post.dislikes++;
+      this.serviceGLobal.followUser(userId).subscribe(
+        () => {
+          // Met à jour isFollowed pour tous les posts du même utilisateur
+          this.posts.forEach((p) => {
+            if (p.user.id === userId) {
+              p.isFollowed = true;
+            }
+          });
+          console.log(`Utilisateur ${userId} suivi avec succès`);
+        },
+        (error) => {
+          console.error("Erreur lors du suivi de l'utilisateur", error);
+        }
+      );
     }
   }
+
   async newPublication() {
     const modal = await this.modalController.create({
       component: AddPublicationComponent,
