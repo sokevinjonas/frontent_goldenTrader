@@ -22,43 +22,30 @@
 <ion-content [fullscreen]="true">
   <!-- Posts Feed -->
   <ion-list>
-    <ion-card *ngFor="let post of posts" class="post-card">
+    <ion-card *ngFor="let post of serviceGLobal.posts" class="post-card">
       <ion-card-header>
         <ion-item lines="none">
           <ion-avatar slot="start">
-            <!-- <img [src]="post.avatar" [alt]="post.author" /> -->
             <img src="assets/avatars/avatar-man.png" alt="" />
           </ion-avatar>
-          <ion-label>
+          <ion-label
+            [routerLink]="['/view-profile', post.user.id]"
+            routerLinkActive="router-link-active"
+          >
             <h2>{{post.user.name}}</h2>
             <p>{{serviceGLobal.getTimeAgo(post.created_at)}}</p>
           </ion-label>
-          <ion-button
-            slot="end"
-            [fill]="post.isFollowed ? 'outline' : 'solid'"
-            (click)="toggleFollow(post)"
-            [color]="post.isFollowed ? 'medium' : 'warning'"
-          >
-            {{ post.isFollowed ? 'Abonné' : 'S’abonner' }}
-          </ion-button>
+          <app-follow-button-component
+            [user]="post.user"
+            (followStatusChanged)="serviceGLobal.allPublication()"
+          ></app-follow-button-component>
         </ion-item>
       </ion-card-header>
 
       <ion-card-content>
         <!-- <h3>{{post.title}}</h3> -->
         <p>{{post.content}}</p>
-        <!-- <img *ngIf="post.image" [src]="post.image" class="post-image" /> -->
         <img src="https://placehold.co/800x450" alt="" />
-        <!-- <div class="interaction-buttons">
-          <ion-button fill="clear" (click)="handleLike(post, true)">
-            <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
-            {{post.likes}}
-          </ion-button>
-          <ion-button fill="clear" (click)="handleLike(post, false)">
-            <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
-            {{post.dislikes}}
-          </ion-button>
-        </div> -->
         <div class="interaction-buttons">
           <ion-button fill="clear">
             <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>

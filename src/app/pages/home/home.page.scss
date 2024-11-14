@@ -2,13 +2,7 @@
   color: var(--ion-color-primary);
   font-weight: bold;
 }
-ion-button[fill="solid"] {
-  transition: transform 0.2s ease;
-}
 
-ion-button[fill="solid"]:hover {
-  transform: scale(1.1);
-}
 .post-card {
   margin: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

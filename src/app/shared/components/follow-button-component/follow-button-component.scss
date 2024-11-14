@@ -1,0 +1,7 @@
+ion-button[fill="solid"] {
+  transition: transform 0.2s ease;
+}
+
+ion-button[fill="solid"]:hover {
+  transform: scale(1.1);
+}

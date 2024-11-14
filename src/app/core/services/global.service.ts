@@ -2,12 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import { Plublications } from '../interfaces/publications';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
+  posts: Plublications[] = [];
   protected apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   // Méthode pour récupérer la liste des publications
@@ -25,6 +28,26 @@ export class GlobalService {
   unfollowUser(userId: number): Observable<any> {
     const url = `${this.apiUrl}unfollow/${userId}`;
     return this.http.delete(url);
+  }
+  // Méthode pour récupérer les détails user par ID
+  getUserPublications(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}publication/${userId}`);
+  }
+  // Méthode pour récupérer status et List d'un investor qui suit
+  checkFollowStatusAndList(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}check-follow`);
+  }
+
+  allPublication() {
+    this.FilActualisation().subscribe({
+      next: (data) => {
+        this.posts = data.data;
+        // console.log(this.posts);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des publications', error);
+      },
+    });
   }
   // Méthode pour calculer le temps écoulé
   getTimeAgo(dateString: string): string {

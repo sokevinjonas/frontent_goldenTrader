@@ -1,13 +1,134 @@
-<ion-header [translucent]="true">
+<!-- view-profile.page.html -->
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>view-profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profil Analyste</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">view-profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding-bottom">
+  <!-- Profile Content -->
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="8" size-lg="6">
+        <!-- <ion-card class="profile-card ion-no-margin"> -->
+        <ion-card-content>
+          <!-- Profile Image and Info -->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="12" class="ion-text-center">
+              <div class="profile-image-wrapper">
+                <ion-avatar class="profile-avatar">
+                  <!-- <img [src]="analyst?.profilePicture" alt="Profile" /> -->
+                  <img src="assets/avatars/avatar-man.png" alt="" />
+                </ion-avatar>
+                <!-- <ion-fab-button
+                  size="small"
+                  class="camera-button"
+                  (click)="changeProfilePicture()"
+                >
+                  <ion-icon name="camera"></ion-icon>
+                </ion-fab-button> -->
+              </div>
+            </ion-col>
+
+            <ion-col size="12" class="ion-text-center">
+              <ion-text color="dark">
+                <h1 class="ion-no-margin">{{ user?.name }}</h1>
+              </ion-text>
+              <ion-text color="medium">
+                <p class="bio ion-margin-vertical">
+                  {{ user?.bio || 'Aucune description' }}
+                </p>
+              </ion-text>
+              <div class="ion-margin-vertical">
+                <ion-chip outline>
+                  <ion-label> 0 abonnés</ion-label>
+                </ion-chip>
+                <app-follow-button-component
+                  *ngIf="user"
+                  [user]="user"
+                  (followStatusChanged)="serviceGlobal.allPublication()"
+                ></app-follow-button-component>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+        <!-- </ion-card> -->
+
+        <!-- Performance Card -->
+        <ion-card class="ion-margin-top">
+          <ion-card-header>
+            <ion-card-title>Performances</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="4">
+                  <div class="metric-item ion-text-center">
+                    <ion-text color="primary">
+                      <!-- <h2>{{ analyst?.performance?.totalSignals }}</h2> -->
+                      <h2>0</h2>
+                    </ion-text>
+                    <ion-text color="medium">
+                      <p>Signaux Publiés</p>
+                    </ion-text>
+                  </div>
+                </ion-col>
+                <ion-col size="4">
+                  <div class="metric-item ion-text-center">
+                    <ion-text color="primary">
+                      <!-- <h2>{{ analyst?.performance?.successRate }}%</h2> -->
+                      <h2>0</h2>
+                    </ion-text>
+                    <ion-text color="medium">
+                      <p>Taux de Succès</p>
+                    </ion-text>
+                  </div>
+                </ion-col>
+                <ion-col size="4">
+                  <div class="metric-item ion-text-center">
+                    <ion-text color="primary">
+                      <!-- <h2>{{ analyst?.performance?.avgReturn }}%</h2> -->
+                      <h2>0%</h2>
+                    </ion-text>
+                    <ion-text color="medium">
+                      <p>Retour Moyen</p>
+                    </ion-text>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Posts Card -->
+        <ion-card class="ion-margin-top">
+          <ion-card-header>
+            <ion-card-title>Publications</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-list>
+              <ion-item *ngFor="let post of posts" button detail="true">
+                <ion-thumbnail slot="start">
+                  <!-- <img [src]="post.thumbnail" [alt]="post.title" /> -->
+                  <img src="https://placehold.co/80x450" alt="" />
+                </ion-thumbnail>
+                <ion-label>
+                  <h3>{{ post.content }}</h3>
+                  <!-- <p>{{ post.summary }}</p> -->
+                  <p class="ion-text-end">
+                    <ion-note
+                      >{{ post.created_at| date:'dd MMM yyyy' }}</ion-note
+                    >
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

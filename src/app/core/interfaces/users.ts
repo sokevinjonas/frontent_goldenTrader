@@ -6,4 +6,5 @@ export interface Users {
   role: string;
   avatar?: string;
   created_at: string;
+  isFollowed?: boolean; // Ajout de isFollowed
 }

@@ -38,7 +38,7 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'view-profile',
+    path: 'view-profile/:userID',
     loadChildren: () =>
       import('./features/profile/view-profile/view-profile.module').then(
         (m) => m.ViewProfilePageModule
