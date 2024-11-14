@@ -1,0 +1,10 @@
+ion-searchbar {
+  --background: #f1f1f1;
+  --border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &.focused {
+    border: 2px solid #4caf50; // Couleur de la bordure au focus
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); // Ombre au focus
+  }
+}

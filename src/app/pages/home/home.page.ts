@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { Plublications } from 'src/app/core/interfaces/publications';
 import { Users } from 'src/app/core/interfaces/users';
 import { GlobalService } from 'src/app/core/services/global.service';
 import { AddPublicationComponent } from 'src/app/shared/components/add-publication/add-publication.component';
@@ -14,7 +14,8 @@ export class HomePage implements OnInit {
   user?: Users;
   constructor(
     private modalController: ModalController,
-    protected serviceGLobal: GlobalService
+    protected serviceGLobal: GlobalService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -25,5 +26,8 @@ export class HomePage implements OnInit {
       component: AddPublicationComponent,
     });
     return await modal.present();
+  }
+  goToSeachbarPage() {
+    this.router.navigate(['/searchbar']);
   }
 }

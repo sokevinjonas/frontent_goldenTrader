@@ -60,6 +60,14 @@ const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'searchbar',
+    loadChildren: () =>
+      import('./features/searchbar/searchbar.module').then(
+        (m) => m.SearchbarPageModule
+      ),
+    canActivate: [authGuard],
+  },
 ];
 @NgModule({
   imports: [

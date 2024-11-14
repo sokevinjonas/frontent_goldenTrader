@@ -10,8 +10,15 @@
       >
         <ion-icon size="large" name="add-circle-outline"></ion-icon>
       </ion-button>
-      <ion-button fill="clear">
-        <!-- <ion-icon name="notifications-outline"></ion-icon> -->
+      <ion-button
+        (click)="goToSeachbarPage()"
+        expand="block"
+        fill="clear"
+        shape="round"
+      >
+        <ion-icon size="large" name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" size="default">
         <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
         <ion-badge color="danger" class="custom-badge"> 0 </ion-badge>
       </ion-button>
