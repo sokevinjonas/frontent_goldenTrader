@@ -1,11 +1,12 @@
+import { PostImages } from './postimage';
 import { Users } from './users';
 
-export interface Plublications {
+export interface Publications {
   isFollowed: boolean;
   id: number;
   user: Users;
   content: string;
-  image?: string[];
+  images: string | PostImages[];
   created_at: string;
 }
 

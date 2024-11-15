@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { Plublications } from 'src/app/core/interfaces/publications';
+import { Publications } from 'src/app/core/interfaces/publications';
 import { Users } from 'src/app/core/interfaces/users';
 import { GlobalService } from 'src/app/core/services/global.service';
 @Component({
@@ -11,7 +11,7 @@ import { GlobalService } from 'src/app/core/services/global.service';
 })
 export class ViewProfilePage implements OnInit {
   userID!: number;
-  posts: Plublications[] = [];
+  posts: Publications[] = [];
   user?: Users;
   constructor(
     private loadingController: LoadingController,

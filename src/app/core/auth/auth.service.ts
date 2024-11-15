@@ -40,7 +40,9 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       try {
-        return (this.userInfo = jwtDecode(token)); // Décode le token et retourne les données
+        this.userInfo = jwtDecode(token);
+        // console.log(this.userInfo);
+        return this.userInfo; // Décode le token et retourne les données
       } catch (error) {
         console.error('Erreur lors du décodage du token:', error);
         return null;
@@ -65,7 +67,7 @@ export class AuthService {
   // Récupérer le token depuis le localStorage
   getToken(): string | null {
     const token = localStorage.getItem(this.token);
-    console.log('Token récupéré:', token); // Ajoutez ceci pour vérifier le token
+    // console.log('Token récupéré:', token); // Ajoutez ceci pour vérifier le token
     return token;
   }
 

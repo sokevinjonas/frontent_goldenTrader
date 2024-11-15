@@ -1,7 +1,26 @@
-ion-button[fill="solid"] {
-  transition: transform 0.2s ease;
+// ion-button[fill="solid"] {
+//   transition: transform 0.2s ease;
+// }
+
+// ion-button[fill="solid"]:hover {
+//   transform: scale(1.1);
+// }
+
+/* Interaction Buttons */
+.interaction-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-ion-button[fill="solid"]:hover {
-  transform: scale(1.1);
+.interaction-buttons ion-button {
+  --padding-start: 8px;
+  --padding-end: 12px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.interaction-buttons ion-button[fill="solid"] {
+  border-radius: 16px;
 }

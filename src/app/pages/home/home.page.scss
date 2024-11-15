@@ -1,41 +1,72 @@
-.gold-text {
-  color: var(--ion-color-primary);
+.header-title {
+  font-size: 1.5rem;
   font-weight: bold;
+  color: var(--ion-color-primary);
 }
 
+.custom-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-size: 0.7rem;
+  padding: 0 4px;
+}
+
+/* Posts */
 .post-card {
-  margin: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 8px; /* Réduction de la marge */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-  ion-card-header {
-    padding: 0;
-  }
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
 
-  ion-item {
-    --padding-start: 0;
-  }
+.post-card ion-card-header {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
 
-  ion-card-content {
-    h3 {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-    .post-image {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 16px;
-    }
-  }
+.post-card ion-card-content {
+  padding: 16px;
+}
 
-  .interaction-buttons {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
+.post-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    ion-button {
-      --padding-start: 4px;
-      --padding-end: 12px;
-    }
-  }
+.post-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.post-image.center-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-image.center-image img {
+  max-width: 80%; /* Ajustez selon vos besoins */
+  height: auto;
+}
+
+.interaction-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px; /* Réduction de l'espacement entre les boutons */
+}
+
+.interaction-buttons ion-button {
+  --color: var(--ion-color-dark);
+  font-size: 0.9rem;
+  text-transform: capitalize;
 }

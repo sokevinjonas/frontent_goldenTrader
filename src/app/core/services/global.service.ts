@@ -2,16 +2,30 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { Plublications, Posts } from '../interfaces/publications';
+import { Posts, Publications } from '../interfaces/publications';
+import { Network } from '@capacitor/network';
+import { PostImages } from '../interfaces/postimage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
-  posts: Plublications[] = [];
+  BASE_URL = 'http://localhost:8000'; // URL de votre Laravel local
+  posts: Publications[] = [];
+  isConnected: Boolean = false;
   protected apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
+
+  logCurrentNetworkStatus = async () => {
+    const status = await Network.getStatus();
+    if (status.connected) {
+      this.isConnected = true;
+    } else {
+      this.isConnected = false;
+    }
+    console.log('Network status:', status);
+  };
 
   // Méthode pour récupérer la liste des publications
   FilActualisation(): Observable<any> {
@@ -37,12 +51,35 @@ export class GlobalService {
   checkFollowStatusAndList(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}check-follow`);
   }
+  decodeImages(images: string | PostImages[] | null): PostImages[] {
+    if (!images) {
+      return [];
+    }
+
+    if (Array.isArray(images)) {
+      return images.map((image) => ({
+        ...image,
+        path: `${this.BASE_URL}${image.path.replace(/\\/g, '')}`,
+      }));
+    }
+
+    try {
+      const parsedImages = JSON.parse(images);
+      return parsedImages.map((image: PostImages) => ({
+        ...image,
+        path: `${this.BASE_URL}${image.path.replace(/\\/g, '')}`,
+      }));
+    } catch (error) {
+      console.error('Erreur lors du décodage des images :', error);
+      return [];
+    }
+  }
 
   allPublication() {
     this.FilActualisation().subscribe({
       next: (data) => {
         this.posts = data.data;
-        // console.log(this.posts);
+        console.log(this.posts);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des publications', error);

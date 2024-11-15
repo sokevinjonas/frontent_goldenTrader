@@ -1,9 +1,73 @@
-.image-container {
-  position: relative;
-  width: 100%;
-  padding-top: 100%; /* Aspect ratio 1:1 */
-  overflow: hidden;
+.header-toolbar {
+  --background: #ffffff;
+  --border-width: 0 0 1px 0;
+  --border-color: rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  --color: #666666;
+  margin-left: 8px;
+}
+
+.publish-button {
+  margin-right: 8px;
+  text-transform: none;
+  font-size: 16px;
+}
+
+.post-container {
+  background: #ffffff;
   border-radius: 8px;
+  padding: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+}
+
+.user-name {
+  font-size: 16px;
+}
+
+.textarea-container {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+}
+
+.custom-textarea {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  font-size: 18px;
+  min-height: 120px;
+}
+
+.images-grid {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.image-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  padding-top: 100%;
+}
+
+.image-wrapper.single {
+  grid-column: span 2;
 }
 
 .preview-image {
@@ -17,21 +81,38 @@
 
 .delete-button {
   position: absolute;
-  top: 0;
-  right: 0;
-  --padding-start: 4px;
-  --padding-end: 4px;
+  top: 8px;
+  right: 8px;
+  --background: rgba(0, 0, 0, 0.5);
+  --border-radius: 50%;
+  width: 32px;
+  height: 32px;
   margin: 0;
-  height: 24px;
 }
 
-.custom-textarea {
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 8px;
-  --padding-bottom: 8px;
+.actions-toolbar {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 16px;
+  padding-top: 16px;
 }
 
-ion-textarea {
-  min-height: 100px;
+.toolbar-label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  height: 44px;
+}
+
+ion-content {
+  --background: #f0f2f5;
 }

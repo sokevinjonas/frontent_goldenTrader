@@ -1,59 +1,88 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Nouvelle publication</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="font-medium text-lg">Nouvelle publication</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="dismissModal()">
-        <ion-icon name="close-outline"></ion-icon>
+      <ion-button (click)="dismissModal()" class="close-button">
+        <ion-icon name="close-outline" size="large"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="onSubmit()" [disabled]="!isValid" color="primary">
+      <ion-button
+        (click)="onSubmit()"
+        [disabled]="!isValid"
+        color="primary"
+        class="publish-button font-semibold"
+      >
         Publier
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    <ion-item lines="none">
-      <ion-textarea
-        formControlName="content"
-        placeholder="Que voulez-vous partager ?"
-        [rows]="4"
-        [autoGrow]="true"
-        class="custom-textarea"
-      ></ion-textarea>
-    </ion-item>
+<ion-content class="ion-padding">
+  <div class="post-container">
+    <div class="user-info">
+      <ion-avatar class="user-avatar">
+        <img src="assets/avatars/avatar-man.png" alt="Photo de profil" />
+      </ion-avatar>
+      <div class="user-name">
+        <ion-text color="dark" class="font-semibold">
+          {{ authService.userInfo?.name }}
+        </ion-text>
+      </div>
+    </div>
 
-    <!-- Prévisualisation des images -->
-    <ion-grid *ngIf="images.length > 0">
-      <ion-row>
-        <ion-col size="4" *ngFor="let image of images; let i = index">
-          <div class="image-container">
-            <img [src]="image.src" alt="Image preview" class="preview-image" />
-            <ion-button
-              fill="clear"
-              class="delete-button"
-              (click)="removeImage(i)"
-            >
-              <ion-icon name="close-circle" color="danger"></ion-icon>
-            </ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+      <ion-item lines="none" class="textarea-container">
+        <ion-textarea
+          formControlName="content"
+          placeholder="Que voulez-vous partager ?"
+          [rows]="4"
+          [autoGrow]="true"
+          class="custom-textarea"
+        ></ion-textarea>
+      </ion-item>
 
-    <!-- Bouton pour ajouter des images -->
-    <ion-item
-      lines="none"
-      class="ion-margin-top"
-      *ngIf="images.length < maxImages"
-    >
-      <ion-button expand="block" fill="clear" (click)="selectImages()">
-        <ion-icon name="image-outline" slot="start"></ion-icon>
-        Choisir des images
-      </ion-button>
-    </ion-item>
-  </form>
+      <div class="images-grid" *ngIf="images.length > 0">
+        <div
+          class="image-wrapper"
+          *ngFor="let image of images; let i = index"
+          [ngClass]="{
+            single: images.length === 1,
+            multiple: images.length > 1
+          }"
+        >
+          <img [src]="image.src" alt="Image preview" class="preview-image" />
+          <ion-button
+            fill="clear"
+            class="delete-button"
+            (click)="removeImage(i)"
+          >
+            <ion-icon name="close-circle" color="light" size="large"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="actions-toolbar">
+        <ion-text color="medium" class="toolbar-label"
+          >Ajouter à votre publication</ion-text
+        >
+        <div class="action-buttons">
+          <ion-button
+            fill="clear"
+            class="action-button"
+            (click)="selectImages()"
+            [disabled]="images.length >= maxImages"
+          >
+            <ion-icon
+              name="image"
+              color="primary"
+              slot="icon-only"
+              size="large"
+            ></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </form>
+  </div>
 </ion-content>

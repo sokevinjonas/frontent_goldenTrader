@@ -6,7 +6,7 @@ import {
   LoadingController,
   ToastController,
 } from '@ionic/angular';
-import { Posts } from 'src/app/core/interfaces/publications';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { GlobalService } from 'src/app/core/services/global.service';
 
 @Component({
@@ -18,21 +18,24 @@ export class AddPublicationComponent implements OnInit {
   postForm: FormGroup;
   images: Array<{ src: string; file: File | Blob }> = [];
   isLoading = false;
-  maxImages = 5; // Maximum nombre d'images autorisées
+  maxImages = 2; // Maximum nombre d'images autorisées
 
   constructor(
     private formBuilder: FormBuilder,
     private modalController: ModalController,
     private globalService: GlobalService,
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    protected authService: AuthService
   ) {
     this.postForm = this.formBuilder.group({
-      content: ['', [Validators.required, Validators.maxLength(1000)]],
+      content: ['', [Validators.required, Validators.maxLength(500)]],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.getInfoUser();
+  }
 
   // Sélectionner des images depuis la galerie
   async selectImages() {
