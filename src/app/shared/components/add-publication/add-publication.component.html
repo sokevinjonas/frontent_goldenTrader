@@ -1,64 +1,59 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title>Nouvelle publication</ion-title>
     <ion-buttons slot="start">
       <ion-button (click)="dismissModal()">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Nouvelle publication</ion-title>
     <ion-buttons slot="end">
-      <ion-button
-        type="submit"
-        form="post-form"
-        expand="block"
-        fill="solid"
-        shape="round"
-        color="primary"
-      >
+      <ion-button (click)="onSubmit()" [disabled]="!isValid" color="primary">
         Publier
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-row class="ion-align-items-center">
-    <ion-col size="auto">
-      <ion-avatar>
-        <img src="assets/avatars/avatar-man.png" alt="SO Jonas" />
-      </ion-avatar>
-    </ion-col>
-    <ion-col>
-      <ion-label>
-        <h2>Jonas SO</h2>
-        <p>Mon compte</p>
-      </ion-label>
-    </ion-col>
-  </ion-row>
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" id="post-form">
-    <ion-item>
+<ion-content>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <ion-item lines="none">
       <ion-textarea
-        rows="6"
         formControlName="content"
-        placeholder="Partagez vos pensées..."
-        class="ion-text-wrap"
+        placeholder="Que voulez-vous partager ?"
+        [rows]="4"
+        [autoGrow]="true"
+        class="custom-textarea"
       ></ion-textarea>
     </ion-item>
-    <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-col size="auto">
-        <ion-button expand="block" fill="outline" shape="round" color="primary">
-          <ion-icon name="image-outline"></ion-icon>
-          Choisir une image dans la Galerie
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-margin-top">
-      <ion-col size="auto" *ngFor="let image of images">
-        <ion-img [src]="image.src" [alt]="image.alt"></ion-img>
-        <ion-button color="danger">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+
+    <!-- Prévisualisation des images -->
+    <ion-grid *ngIf="images.length > 0">
+      <ion-row>
+        <ion-col size="4" *ngFor="let image of images; let i = index">
+          <div class="image-container">
+            <img [src]="image.src" alt="Image preview" class="preview-image" />
+            <ion-button
+              fill="clear"
+              class="delete-button"
+              (click)="removeImage(i)"
+            >
+              <ion-icon name="close-circle" color="danger"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Bouton pour ajouter des images -->
+    <ion-item
+      lines="none"
+      class="ion-margin-top"
+      *ngIf="images.length < maxImages"
+    >
+      <ion-button expand="block" fill="clear" (click)="selectImages()">
+        <ion-icon name="image-outline" slot="start"></ion-icon>
+        Choisir des images
+      </ion-button>
+    </ion-item>
   </form>
 </ion-content>

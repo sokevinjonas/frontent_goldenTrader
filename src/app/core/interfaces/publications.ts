@@ -5,6 +5,11 @@ export interface Plublications {
   id: number;
   user: Users;
   content: string;
-  image?: [];
+  image?: string[];
   created_at: string;
+}
+
+export interface Posts {
+  content: string;
+  images: File[];
 }

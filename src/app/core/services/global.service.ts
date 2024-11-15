@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { Plublications } from '../interfaces/publications';
+import { Plublications, Posts } from '../interfaces/publications';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +69,25 @@ export class GlobalService {
       return ` Il y a ${hours} heure${hours > 1 ? 's' : ''} `;
     } else {
       return `Il y a ${days} jour${days > 1 ? 's' : ''} `;
+    }
+  }
+
+  // Méthode pour créer une publication en utilisant l'objet Publications dans mon service
+  createPublication(data: FormData | Posts): Observable<any> {
+    if (data instanceof FormData) {
+      return this.http.post(`${this.apiUrl}publication`, data);
+    } else {
+      const formData = new FormData();
+      formData.append('content', data.content);
+
+      if (data.images) {
+        data.images.forEach((img, index) => {
+          formData.append(`image[${index}]`, img);
+        });
+      }
+      console.log('Contenue de ', formData);
+
+      return this.http.post(`${this.apiUrl}publication`, formData);
     }
   }
 }
