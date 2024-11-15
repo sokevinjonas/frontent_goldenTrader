@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment.prod';
 import { Posts, Publications } from '../interfaces/publications';
 import { Network } from '@capacitor/network';
 import { PostImages } from '../interfaces/postimage';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,10 @@ export class GlobalService {
   isConnected: Boolean = false;
   protected apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loadingController: LoadingController
+  ) {}
 
   logCurrentNetworkStatus = async () => {
     const status = await Network.getStatus();
@@ -75,14 +79,21 @@ export class GlobalService {
     }
   }
 
-  allPublication() {
+  async allPublication() {
+    const loading = await this.loadingController.create({
+      message: 'Chargement...',
+      spinner: 'circular',
+    });
+    await loading.present();
     this.FilActualisation().subscribe({
       next: (data) => {
         this.posts = data.data;
         console.log(this.posts);
+        loading.dismiss();
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des publications', error);
+        loading.dismiss();
       },
     });
   }

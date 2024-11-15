@@ -5,6 +5,16 @@
     </ion-buttons>
     <ion-title class="header-title">GoldenTrader</ion-title>
     <ion-buttons slot="end">
+      <ng-container *ngIf="authService.userInfo?.role != 'investor'">
+        <ion-button
+          expand="block"
+          fill="solid"
+          (click)="newPublication()"
+          shape="round"
+        >
+          <ion-icon size="large" name="add-circle-outline"></ion-icon>
+        </ion-button>
+      </ng-container>
       <ion-button (click)="goToSeachbarPage()" fill="clear">
         <ion-icon size="large" name="search-outline"></ion-icon>
       </ion-button>
@@ -17,6 +27,24 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- État sans connexion Internet -->
+  <!-- <ng-container *ngIf="!serviceGLobal.isConnected">
+    <div class="empty-state">
+      <div class="empty-state-content">
+        <ion-icon name="cloud-offline" class="offline-icon"></ion-icon>
+        <h2>Pas de connexion Internet</h2>
+        <p>Vérifiez votre connexion et réessayez</p>
+        <ion-button
+          expand="block"
+          (click)="serviceGLobal.logCurrentNetworkStatus()"
+          class="retry-button"
+        >
+          <ion-icon name="refresh" slot="start"></ion-icon>
+          Réessayer
+        </ion-button>
+      </div>
+    </div>
+  </ng-container> -->
   <!-- État sans posts -->
   <ng-container *ngIf="serviceGLobal.posts.length === 0">
     <div class="empty-state">

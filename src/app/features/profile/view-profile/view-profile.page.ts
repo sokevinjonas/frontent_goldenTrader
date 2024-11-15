@@ -11,6 +11,7 @@ import { GlobalService } from 'src/app/core/services/global.service';
 })
 export class ViewProfilePage implements OnInit {
   userID!: number;
+  followers: number = 0;
   posts: Publications[] = [];
   user?: Users;
   constructor(
@@ -36,8 +37,11 @@ export class ViewProfilePage implements OnInit {
       next: (data) => {
         this.posts = data.data.publications;
         this.user = data.data.user;
-        console.log('Données de la publication:', this.posts);
-        console.log('Utilisateur:', this.user);
+        this.followers = data.data.followers;
+        console.log('followers', this.followers);
+
+        // console.log('Données de la publication:', this.posts);
+        // console.log('Utilisateur:', this.user);
         loading.dismiss();
       },
       error: async () => {

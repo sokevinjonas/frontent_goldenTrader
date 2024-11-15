@@ -3,6 +3,7 @@
   [fill]="user.isFollowed ? 'outline' : 'solid'"
   (click)="toggleFollow()"
   [color]="user.isFollowed ? 'medium' : 'primary'"
+  class="follow-button"
 >
   {{ user.isFollowed ? 'Abonné' : 'S’abonner' }}
 </ion-button>

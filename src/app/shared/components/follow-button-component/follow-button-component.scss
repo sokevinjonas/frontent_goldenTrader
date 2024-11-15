@@ -1,11 +1,3 @@
-// ion-button[fill="solid"] {
-//   transition: transform 0.2s ease;
-// }
-
-// ion-button[fill="solid"]:hover {
-//   transform: scale(1.1);
-// }
-
 /* Interaction Buttons */
 .interaction-buttons {
   display: flex;
@@ -23,4 +15,26 @@
 
 .interaction-buttons ion-button[fill="solid"] {
   border-radius: 16px;
+}
+
+/* Animation for Follow Button */
+.follow-button {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.follow-button:active {
+  transform: scale(0.95);
+}
+
+.follow-button[fill="solid"] {
+  background-color: var(--ion-color-primary);
+}
+
+.follow-button[fill="outline"] {
+  background-color: transparent;
+}
+
+/* Optional: Add a pulse effect when switching states */
+.follow-button[fill="solid"]:hover {
+  animation: pulse 0.5s infinite;
 }
