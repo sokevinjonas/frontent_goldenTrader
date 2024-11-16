@@ -1,9 +1,9 @@
 <ion-button
   slot="end"
-  [fill]="user.isFollowed ? 'outline' : 'solid'"
+  [fill]="isFollowed ? 'outline' : 'solid'"
   (click)="toggleFollow()"
-  [color]="user.isFollowed ? 'medium' : 'primary'"
+  [color]="isFollowed ? 'medium' : 'primary'"
   class="follow-button"
 >
-  {{ user.isFollowed ? 'Abonné' : 'S’abonner' }}
+  {{ isFollowed ? 'Abonné' : 'S’abonner' }}
 </ion-button>

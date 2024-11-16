@@ -11,7 +11,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 export class FollowButtonComponent implements OnInit {
   @Input() user!: Users;
   @Output() followStatusChanged = new EventEmitter<void>();
-
+  isFollowed?: boolean;
   constructor(
     private serviceGlobal: GlobalService,
     private toastController: ToastController,
@@ -24,18 +24,18 @@ export class FollowButtonComponent implements OnInit {
 
   // Méthode pour vérifier l'état du suivi et récupérer la liste des utilisateurs suivis
   checkFollowStatusAndList() {
-    this.serviceGlobal.checkFollowStatusAndList().subscribe(
-      (response) => {
-        this.user.isFollowed = response.data.isFollowed;
+    this.serviceGlobal.checkFollowStatusAndList().subscribe({
+      next: (response) => {
+        this.isFollowed = response.data.isFollowed;
         console.log('Utilisateurs suivis :', response.data.followedUsers);
       },
-      (error) => {
+      error: (error) => {
         console.error(
           "Erreur lors de la récupération de l'état de suivi",
           error
         );
-      }
-    );
+      },
+    });
   }
 
   async toggleFollow() {
@@ -46,7 +46,7 @@ export class FollowButtonComponent implements OnInit {
     await loading.present();
 
     const userId = this.user.id;
-    const isCurrentlyFollowed = this.user.isFollowed;
+    const isCurrentlyFollowed = this.isFollowed;
 
     const followAction = isCurrentlyFollowed
       ? this.serviceGlobal.unfollowUser(userId)
@@ -56,11 +56,11 @@ export class FollowButtonComponent implements OnInit {
       .subscribe(
         async () => {
           // Inverse l'état du suivi
-          this.user.isFollowed = !isCurrentlyFollowed;
+          this.isFollowed = !isCurrentlyFollowed;
           this.followStatusChanged.emit();
 
           const toast = await this.toastController.create({
-            message: this.user.isFollowed
+            message: this.isFollowed
               ? 'Vous suivez maintenant cet utilisateur'
               : 'Vous ne suivez plus cet utilisateur',
             duration: 2000,
