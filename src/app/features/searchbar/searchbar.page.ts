@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
+import { Publications } from 'src/app/core/interfaces/publications';
+import { GlobalService } from 'src/app/core/services/global.service';
 import { MockDataService } from 'src/app/core/services/mock-data.service';
 
 @Component({
@@ -11,14 +13,15 @@ import { MockDataService } from 'src/app/core/services/mock-data.service';
 export class SearchbarPage implements OnInit {
   @ViewChild('searchbar', { static: false }) searchbar!: IonSearchbar;
   searchHistory: string[] = [];
-  searchResults: any;
+  searchResults: Publications[] = [];
   showHistory = false;
   searchTerm = '';
   isLoading = false;
 
   constructor(
     private router: Router,
-    private mockDataService: MockDataService
+    private mockDataService: MockDataService,
+    protected globalService: GlobalService
   ) {}
 
   ngOnInit() {
@@ -46,16 +49,23 @@ export class SearchbarPage implements OnInit {
       // Ajouter le terme à l'historique
       this.mockDataService.addToSearchHistory(this.searchTerm);
 
-      // Simuler un délai pour la recherche (peut être remplacé par un appel API)
-      setTimeout(() => {
-        this.searchResults = this.mockDataService
-          .getPosts()
-          .filter((post) =>
-            post.content.toLowerCase().includes(this.searchTerm.toLowerCase())
-          );
-        this.isLoading = false;
-        this.showHistory = false;
-      }, 500); // Délai de 500 ms pour la recherche
+      /// Appeler le service global pour la recherche
+      this.globalService.search(this.searchTerm).subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            this.searchResults = response.data; // Stocke les résultats
+            console.log('Stocke les résultats', this.searchResults);
+          } else {
+            console.warn('Aucun résultat trouvé.');
+          }
+          this.isLoading = false;
+          this.showHistory = false;
+        },
+        error: (error) => {
+          console.error('Erreur lors de la recherche:', error);
+          this.isLoading = false;
+        },
+      });
     }
   }
 

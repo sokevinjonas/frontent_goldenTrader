@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { SearchbarPageRoutingModule } from './searchbar-routing.module';
 
 import { SearchbarPage } from './searchbar.page';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SearchbarPageRoutingModule
+    SearchbarPageRoutingModule,
+    SharedModule,
   ],
-  declarations: [SearchbarPage]
+  declarations: [SearchbarPage],
 })
 export class SearchbarPageModule {}

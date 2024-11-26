@@ -42,32 +42,82 @@
   </div>
 
   <!-- Indicateur de chargement -->
-  <div *ngIf="isLoading" class="loading-spinner">
+  <div *ngIf="isLoading" class="empty-state">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
   <!-- Résultats de recherche -->
-  <div class="search-results" *ngIf="!showHistory ">
-    <!-- <ion-list>
-      <ion-item *ngFor="let result of searchResults">
-        <ion-thumbnail slot="start" *ngIf="result.images?.length">
-          <img [src]="result.images[0].path" [alt]="result.images[0].name" />
-        </ion-thumbnail>
-        <ion-label>
-          <h3>{{ result.content }}</h3>
-          <p>Publié par {{ result.user.name }}</p>
-          <ion-badge color="primary">{{ result.likes }} Likes</ion-badge>
-        </ion-label>
-      </ion-item>
-    </ion-list> -->
+  <!-- Feed de posts -->
+  <div class="posts-container">
+    <ion-card
+      class="post-card ion-no-border"
+      *ngFor="let post of searchResults"
+    >
+      <ion-card-header>
+        <ion-item lines="none" class="user-info">
+          <ion-avatar
+            slot="start"
+            [routerLink]="['/view-profile', post.user.id]"
+            class="user-avatar"
+          >
+            <img src="assets/avatars/avatar-man.png" alt="Avatar" />
+          </ion-avatar>
+          <ion-label
+            [routerLink]="['/view-profile', post.user.id]"
+            class="user-details"
+          >
+            <h2 class="user-name">{{ post.user.name }}</h2>
+            <p class="post-time">
+              {{ globalService.getTimeAgo(post.created_at) }}
+            </p>
+          </ion-label>
+          <app-follow-button-component
+            [user]="post.user"
+            (followStatusChanged)="searchResults"
+            class="follow-btn"
+          >
+          </app-follow-button-component>
+        </ion-item>
+      </ion-card-header>
+
+      <div class="post-content">
+        <p class="post-text">{{ post.content }}</p>
+      </div>
+
+      <ion-card-content>
+        <!-- Images -->
+        <ng-container *ngIf="post.images">
+          <div
+            class="image-grid"
+            [class.single-image]="globalService.decodeImages(post.images).length === 1"
+          >
+            <div
+              *ngFor="let image of globalService.decodeImages(post.images)"
+              class="image-container"
+              [class.single]="globalService.decodeImages(post.images).length === 1"
+            >
+              <img [src]="image.path" [alt]="image.name" class="post-image" />
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="interaction-buttons">
+          <ion-button fill="clear" class="like-button">
+            <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+            <span class="like-count">0</span>
+            <span class="like-text">J'aime</span>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <!-- Aucune recherche trouvée -->
-  <!-- <div
-    class="no-results"
-    *ngIf="!isLoading && searchTerm && !searchResults.length"
+  <div
+    class="empty-state"
+    *ngIf="!isLoading && searchTerm && searchResults.length ===0"
   >
     <ion-icon name="search-outline" size="large" color="medium"></ion-icon>
     <p>Aucun résultat trouvé pour "<strong>{{ searchTerm }}</strong>"</p>
-  </div> -->
+  </div>
 </ion-content>

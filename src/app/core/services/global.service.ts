@@ -140,4 +140,9 @@ export class GlobalService {
       return this.http.post(`${this.apiUrl}publication`, formData);
     }
   }
+  search(query: string) {
+    return this.http.get(`${this.apiUrl}search`, {
+      params: { query }, // Envoie le paramètre dans la requête GET
+    });
+  }
 }
