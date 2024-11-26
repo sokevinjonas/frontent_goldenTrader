@@ -22,7 +22,7 @@
         fill="clear"
         size="small"
         color="medium"
-        (click)="searchHistory = []"
+        (click)="deletesearchHistory()"
       >
         Effacer tout
       </ion-button>
@@ -104,7 +104,7 @@
         <div class="interaction-buttons">
           <ion-button fill="clear" class="like-button">
             <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
-            <span class="like-count">0</span>
+            <span class="like-count">10</span>
             <span class="like-text">J'aime</span>
           </ion-button>
         </div>
@@ -113,11 +113,15 @@
   </div>
 
   <!-- Aucune recherche trouvée -->
-  <div
-    class="empty-state"
+  <ion-row
+    class="ion-padding"
     *ngIf="!isLoading && searchTerm && searchResults.length ===0"
   >
-    <ion-icon name="search-outline" size="large" color="medium"></ion-icon>
-    <p>Aucun résultat trouvé pour "<strong>{{ searchTerm }}</strong>"</p>
-  </div>
+    <ion-col size="2">
+      <ion-icon name="search-outline" size="large" color="medium"></ion-icon>
+    </ion-col>
+    <ion-col size="10">
+      <p>Aucun résultat trouvé pour "<strong>{{ searchTerm }}</strong>"</p>
+    </ion-col>
+  </ion-row>
 </ion-content>

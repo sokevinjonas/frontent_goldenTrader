@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
 import { Publications } from 'src/app/core/interfaces/publications';
 import { GlobalService } from 'src/app/core/services/global.service';
-import { MockDataService } from 'src/app/core/services/mock-data.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -18,15 +17,32 @@ export class SearchbarPage implements OnInit {
   searchTerm = '';
   isLoading = false;
 
-  constructor(
-    private router: Router,
-    private mockDataService: MockDataService,
-    protected globalService: GlobalService
-  ) {}
+  constructor(private router: Router, protected globalService: GlobalService) {}
 
   ngOnInit() {
-    // Charger l'historique des recherches depuis le service
-    this.searchHistory = this.mockDataService.getSearchHistory();
+    this.loadSearchHistory();
+  }
+
+  // Charger l'historique depuis le localStorage
+  private loadSearchHistory() {
+    const storedHistory = localStorage.getItem('searchHistory');
+    this.searchHistory = storedHistory ? JSON.parse(storedHistory) : [];
+  }
+
+  deletesearchHistory() {
+    localStorage.removeItem('searchHistory');
+    this.loadSearchHistory();
+  }
+
+  // Ajouter un terme à l'historique
+  private addToSearchHistory(term: string) {
+    if (!this.searchHistory.includes(term)) {
+      this.searchHistory.unshift(term); // Ajouter au début
+      if (this.searchHistory.length > 6) {
+        this.searchHistory.pop(); // Limiter à 6 éléments
+      }
+      localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+    }
   }
 
   // Quand la barre de recherche reçoit le focus
@@ -44,41 +60,48 @@ export class SearchbarPage implements OnInit {
 
   // Effectuer une recherche
   performSearch() {
-    if (this.searchTerm.trim()) {
-      this.isLoading = true;
-      // Ajouter le terme à l'historique
-      this.mockDataService.addToSearchHistory(this.searchTerm);
+    if (this.searchTerm.trim().length === 0) {
+      this.clearSearchResults(); // Effacer les résultats et afficher l'historique
+      return;
+    }
 
-      /// Appeler le service global pour la recherche
+    if (this.searchTerm.length > 3) {
+      this.isLoading = true;
+
       this.globalService.search(this.searchTerm).subscribe({
         next: (response: any) => {
-          if (response.success) {
-            this.searchResults = response.data; // Stocke les résultats
-            console.log('Stocke les résultats', this.searchResults);
-          } else {
-            console.warn('Aucun résultat trouvé.');
-          }
           this.isLoading = false;
-          this.showHistory = false;
+
+          if (response.success && response.data.length > 0) {
+            this.searchResults = response.data;
+            this.addToSearchHistory(this.searchTerm);
+            this.showHistory = false;
+          } else {
+            this.clearSearchResults(); // Aucun résultat trouvé
+          }
         },
         error: (error) => {
+          this.clearSearchResults(); // En cas d'erreur, afficher l'historique
           console.error('Erreur lors de la recherche:', error);
-          this.isLoading = false;
         },
       });
+    } else {
+      this.clearSearchResults(); // Terme trop court, afficher l'historique
     }
+  }
+
+  // Effacer les résultats et afficher l'historique
+  private clearSearchResults() {
+    this.searchResults = [];
+    this.loadSearchHistory();
+    this.showHistory = true;
+    this.isLoading = false;
   }
 
   // Revenir à la page précédente
   comeBack() {
-    if (this.searchTerm.trim()) {
-      const confirmLeave = confirm(
-        'Voulez-vous vraiment quitter la recherche ?'
-      );
-      if (!confirmLeave) return;
-    }
     this.searchTerm = '';
-    this.showHistory = false;
+    this.clearSearchResults();
     this.router.navigate(['tabs/home']);
   }
 
