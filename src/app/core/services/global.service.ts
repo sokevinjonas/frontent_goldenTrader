@@ -30,12 +30,6 @@ export class GlobalService {
     }
     console.log('Network status:', status);
   };
-
-  // Méthode pour récupérer la liste des publications
-  FilActualisation(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}publication`);
-  }
-
   // Méthode pour suivre un utilisateur
   followUser(userId: number): Observable<any> {
     const url = `${this.apiUrl}follow/${userId}`;
@@ -78,6 +72,9 @@ export class GlobalService {
       return [];
     }
   }
+  FilActualisation(): Observable<any> {
+    return this.http.get(`${this.apiUrl}publication`);
+  }
 
   async allPublication() {
     const loading = await this.loadingController.create({
@@ -85,18 +82,23 @@ export class GlobalService {
       spinner: 'circular',
     });
     await loading.present();
+
     this.FilActualisation().subscribe({
       next: (data) => {
-        this.posts = data.data;
-        console.log(this.posts);
-        loading.dismiss();
+        this.posts = data.data; // Ajoute les publications à la liste
+        console.log(this.posts); // Affiche la liste mise à jour
+        loading.dismiss(); // Cache le loader après réception des données
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des publications', error);
-        loading.dismiss();
+        loading.dismiss(); // Cache le loader après réception des données
+      },
+      complete: () => {
+        loading.dismiss(); // Cache le loader après réception des données
       },
     });
   }
+
   // Méthode pour calculer le temps écoulé
   getTimeAgo(dateString: string): string {
     const now = new Date();

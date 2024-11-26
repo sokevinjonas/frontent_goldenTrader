@@ -1,0 +1,47 @@
+// profile.page.scss
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+ion-list-header {
+  margin-top: 16px;
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+  }
+}
+
+ion-item {
+  --padding-start: 16px;
+
+  ion-icon {
+    color: var(--ion-color-medium);
+  }
+}
+
+ion-button {
+  margin: 16px;
+
+  &.button-danger {
+    --background: var(--ion-color-danger);
+  }
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.subscription-info {
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+}

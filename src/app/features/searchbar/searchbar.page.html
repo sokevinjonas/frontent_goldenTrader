@@ -2,11 +2,72 @@
   <ion-toolbar>
     <ion-searchbar
       #searchbar
+      [(ngModel)]="searchTerm"
       show-cancel-button="focus"
+      (ionFocus)="onSearchFocus()"
       (ionCancel)="comeBack()"
+      (ionInput)="performSearch()"
       placeholder="Rechercher"
+      [class.focused]="showHistory"
     ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true">
+  <!-- Historique des recherches -->
+  <div class="search-history" *ngIf="showHistory && searchHistory.length">
+    <div class="history-header">
+      <h3>Recherches récentes</h3>
+      <ion-button
+        fill="clear"
+        size="small"
+        color="medium"
+        (click)="searchHistory = []"
+      >
+        Effacer tout
+      </ion-button>
+    </div>
+
+    <ion-list lines="full">
+      <ion-item
+        *ngFor="let term of searchHistory"
+        button
+        (click)="selectSearchTerm(term)"
+      >
+        <ion-icon name="time-outline" slot="start" color="medium"></ion-icon>
+        <ion-label>{{ term }}</ion-label>
+        <ion-icon name="arrow-up-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Résultats de recherche -->
+  <div class="search-results" *ngIf="!showHistory ">
+    <!-- <ion-list>
+      <ion-item *ngFor="let result of searchResults">
+        <ion-thumbnail slot="start" *ngIf="result.images?.length">
+          <img [src]="result.images[0].path" [alt]="result.images[0].name" />
+        </ion-thumbnail>
+        <ion-label>
+          <h3>{{ result.content }}</h3>
+          <p>Publié par {{ result.user.name }}</p>
+          <ion-badge color="primary">{{ result.likes }} Likes</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-list> -->
+  </div>
+
+  <!-- Aucune recherche trouvée -->
+  <!-- <div
+    class="no-results"
+    *ngIf="!isLoading && searchTerm && !searchResults.length"
+  >
+    <ion-icon name="search-outline" size="large" color="medium"></ion-icon>
+    <p>Aucun résultat trouvé pour "<strong>{{ searchTerm }}</strong>"</p>
+  </div> -->
+</ion-content>

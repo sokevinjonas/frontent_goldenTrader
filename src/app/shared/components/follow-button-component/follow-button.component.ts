@@ -19,7 +19,7 @@ export class FollowButtonComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.checkFollowStatusAndList();
+    // this.checkFollowStatusAndList();
   }
 
   // Méthode pour vérifier l'état du suivi et récupérer la liste des utilisateurs suivis
@@ -53,11 +53,11 @@ export class FollowButtonComponent implements OnInit {
       : this.serviceGlobal.followUser(userId);
 
     followAction
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           // Inverse l'état du suivi
           this.isFollowed = !isCurrentlyFollowed;
-          this.followStatusChanged.emit();
+          // this.followStatusChanged.emit();
 
           const toast = await this.toastController.create({
             message: this.isFollowed
@@ -69,10 +69,10 @@ export class FollowButtonComponent implements OnInit {
           });
           toast.present();
         },
-        (error) => {
+        error: (error) => {
           console.error("Erreur lors de l'opération de suivi", error);
-        }
-      )
+        },
+      })
       .add(() => {
         loading.dismiss();
       });

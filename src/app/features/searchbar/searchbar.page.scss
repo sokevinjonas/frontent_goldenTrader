@@ -1,10 +1,63 @@
+// search.page.scss
+ion-header {
+  background: #ffffff;
+}
+
 ion-searchbar {
   --background: #f1f1f1;
   --border-radius: 8px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  --placeholder-color: #666;
+  --icon-color: #666;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
 
   &.focused {
-    border: 2px solid #4caf50; // Couleur de la bordure au focus
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); // Ombre au focus
+    --background: #ffffff;
+    // border: 2px solid var(--ion-color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.search-history {
+  background: #ffffff;
+  padding: 16px 0;
+
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px 8px;
+    border-bottom: 1px solid #f1f1f1;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+  }
+
+  ion-list {
+    background: transparent;
+
+    ion-item {
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --background: transparent;
+
+      ion-icon {
+        color: var(--ion-color-medium);
+        font-size: 1.2rem;
+      }
+
+      ion-label {
+        margin-left: 8px;
+        font-size: 0.95rem;
+      }
+
+      &:hover {
+        --background: #f8f8f8;
+      }
+    }
   }
 }

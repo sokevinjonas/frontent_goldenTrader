@@ -4,9 +4,10 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title class="header-title">GoldenTrader</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" class="header-actions">
       <ng-container *ngIf="authService.userInfo?.role != 'investor'">
         <ion-button
+          class="new-post-btn"
           expand="block"
           fill="solid"
           (click)="newPublication()"
@@ -15,10 +16,10 @@
           <ion-icon size="large" name="add-circle-outline"></ion-icon>
         </ion-button>
       </ng-container>
-      <ion-button (click)="goToSeachbarPage()" fill="clear">
+      <ion-button class="action-btn" (click)="goToSeachbarPage()" fill="clear">
         <ion-icon size="large" name="search-outline"></ion-icon>
       </ion-button>
-      <ion-button fill="clear">
+      <ion-button class="action-btn notification-btn" fill="clear">
         <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
         <ion-badge color="danger" class="custom-badge">0</ion-badge>
       </ion-button>
@@ -26,25 +27,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- État sans connexion Internet -->
-  <!-- <ng-container *ngIf="!serviceGLobal.isConnected">
-    <div class="empty-state">
-      <div class="empty-state-content">
-        <ion-icon name="cloud-offline" class="offline-icon"></ion-icon>
-        <h2>Pas de connexion Internet</h2>
-        <p>Vérifiez votre connexion et réessayez</p>
-        <ion-button
-          expand="block"
-          (click)="serviceGLobal.logCurrentNetworkStatus()"
-          class="retry-button"
-        >
-          <ion-icon name="refresh" slot="start"></ion-icon>
-          Réessayer
-        </ion-button>
-      </div>
-    </div>
-  </ng-container> -->
+<ion-content [fullscreen]="true" class="home-content">
   <!-- État sans posts -->
   <ng-container *ngIf="serviceGLobal.posts.length === 0">
     <div class="empty-state">
@@ -54,60 +37,67 @@
   </ng-container>
 
   <!-- Feed de posts -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size-md="6" size="12" *ngFor="let post of serviceGLobal.posts">
-        <ion-card class="post-card">
-          <ion-card-header>
-            <ion-item lines="none">
-              <ion-avatar
-                slot="start"
-                [routerLink]="['/view-profile', post.user.id]"
-                routerLinkActive="router-link-active"
-              >
-                <img src="assets/avatars/avatar-man.png" alt="Avatar" />
-              </ion-avatar>
-              <ion-label
-                [routerLink]="['/view-profile', post.user.id]"
-                routerLinkActive="router-link-active"
-              >
-                <h2>{{ post.user.name }}</h2>
-                <p>{{ serviceGLobal.getTimeAgo(post.created_at) }}</p>
-              </ion-label>
-              <app-follow-button-component
-                [user]="post.user"
-                (followStatusChanged)="serviceGLobal.allPublication()"
-              ></app-follow-button-component>
-            </ion-item>
-          </ion-card-header>
-          <ion-card-content>
-            <p>{{ post.content }}</p>
-            <!-- Images -->
-            <ng-container *ngIf="post.images">
-              <ion-row>
-                <ion-col
-                  *ngFor="let image of serviceGLobal.decodeImages(post.images); let i = index"
-                  [size]="post.images.length === 1 ? '12' : '6'"
-                  class="post-image"
-                >
-                  <img [src]="image.path" [alt]="image.name" />
-                </ion-col>
-              </ion-row>
-            </ng-container>
-            <div class="interaction-buttons">
-              <ion-button fill="clear">
-                0
-                <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
-                J'aime
-              </ion-button>
-              <!-- <ion-button fill="clear">
-                <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
-                Commentaire
-              </ion-button> -->
+  <div class="posts-container">
+    <ion-card
+      class="post-card ion-no-border"
+      *ngFor="let post of serviceGLobal.posts"
+    >
+      <ion-card-header>
+        <ion-item lines="none" class="user-info">
+          <ion-avatar
+            slot="start"
+            [routerLink]="['/view-profile', post.user.id]"
+            class="user-avatar"
+          >
+            <img src="assets/avatars/avatar-man.png" alt="Avatar" />
+          </ion-avatar>
+          <ion-label
+            [routerLink]="['/view-profile', post.user.id]"
+            class="user-details"
+          >
+            <h2 class="user-name">{{ post.user.name }}</h2>
+            <p class="post-time">
+              {{ serviceGLobal.getTimeAgo(post.created_at) }}
+            </p>
+          </ion-label>
+          <app-follow-button-component
+            [user]="post.user"
+            (followStatusChanged)="serviceGLobal.allPublication()"
+            class="follow-btn"
+          >
+          </app-follow-button-component>
+        </ion-item>
+      </ion-card-header>
+
+      <div class="post-content">
+        <p class="post-text">{{ post.content }}</p>
+      </div>
+
+      <ion-card-content>
+        <!-- Images -->
+        <ng-container *ngIf="post.images">
+          <div
+            class="image-grid"
+            [class.single-image]="serviceGLobal.decodeImages(post.images).length === 1"
+          >
+            <div
+              *ngFor="let image of serviceGLobal.decodeImages(post.images)"
+              class="image-container"
+              [class.single]="serviceGLobal.decodeImages(post.images).length === 1"
+            >
+              <img [src]="image.path" [alt]="image.name" class="post-image" />
             </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          </div>
+        </ng-container>
+
+        <div class="interaction-buttons">
+          <ion-button fill="clear" class="like-button">
+            <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+            <span class="like-count">0</span>
+            <span class="like-text">J'aime</span>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
