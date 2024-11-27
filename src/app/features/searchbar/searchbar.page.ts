@@ -38,7 +38,7 @@ export class SearchbarPage implements OnInit {
   private addToSearchHistory(term: string) {
     if (!this.searchHistory.includes(term)) {
       this.searchHistory.unshift(term); // Ajouter au début
-      if (this.searchHistory.length > 6) {
+      if (this.searchHistory.length > 10) {
         this.searchHistory.pop(); // Limiter à 6 éléments
       }
       localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));

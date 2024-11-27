@@ -46,8 +46,8 @@ export class GlobalService {
     return this.http.get<any>(`${this.apiUrl}publication/${userId}`);
   }
   // Méthode pour récupérer status et List d'un investor qui suit
-  checkFollowStatusAndList(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}check-follow`);
+  isFollowing(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}is-following/${userId}`);
   }
   decodeImages(images: string | PostImages[] | null): PostImages[] {
     if (!images) {

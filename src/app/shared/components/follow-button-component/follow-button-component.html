@@ -1,9 +1,12 @@
-<ion-button
-  slot="end"
-  [fill]="isFollowed ? 'outline' : 'solid'"
-  (click)="toggleFollow()"
-  [color]="isFollowed ? 'medium' : 'primary'"
-  class="follow-button"
->
-  {{ isFollowed ? 'Abonné' : 'S’abonner' }}
-</ion-button>
+<ng-container *ngIf="authService.userInfo">
+  <ion-button
+    *ngIf="authService.userInfo.id != user.id"
+    slot="end"
+    [fill]="isFollowed ? 'outline' : 'solid'"
+    (click)="toggleFollow()"
+    [color]="isFollowed ? 'medium' : 'primary'"
+    class="follow-button"
+  >
+    {{ isFollowed ? 'Abonné' : 'S’abonner' }}
+  </ion-button>
+</ng-container>

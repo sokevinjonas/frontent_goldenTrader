@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GlobalService } from '../../../core/services/global.service';
 import { Users } from 'src/app/core/interfaces/users';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-follow-button-component',
@@ -11,23 +12,25 @@ import { LoadingController, ToastController } from '@ionic/angular';
 export class FollowButtonComponent implements OnInit {
   @Input() user!: Users;
   @Output() followStatusChanged = new EventEmitter<void>();
-  isFollowed?: boolean;
+  isFollowed = false;
   constructor(
     private serviceGlobal: GlobalService,
     private toastController: ToastController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    protected authService: AuthService
   ) {}
 
   ngOnInit() {
-    // this.checkFollowStatusAndList();
+    this.checkFollow();
+    this.authService.getInfoUser();
   }
 
-  // Méthode pour vérifier l'état du suivi et récupérer la liste des utilisateurs suivis
-  checkFollowStatusAndList() {
-    this.serviceGlobal.checkFollowStatusAndList().subscribe({
+  // Méthode pour vérifier l'état du suivi
+  checkFollow() {
+    this.serviceGlobal.isFollowing(this.user.id).subscribe({
       next: (response) => {
-        this.isFollowed = response.data.isFollowed;
-        console.log('Utilisateurs suivis :', response.data.followedUsers);
+        this.isFollowed = response.status;
+        console.log(response.message);
       },
       error: (error) => {
         console.error(
@@ -57,7 +60,7 @@ export class FollowButtonComponent implements OnInit {
         next: async () => {
           // Inverse l'état du suivi
           this.isFollowed = !isCurrentlyFollowed;
-          // this.followStatusChanged.emit();
+          this.followStatusChanged.emit();
 
           const toast = await this.toastController.create({
             message: this.isFollowed
