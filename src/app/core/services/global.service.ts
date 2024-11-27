@@ -6,6 +6,7 @@ import { Posts, Publications } from '../interfaces/publications';
 import { Network } from '@capacitor/network';
 import { PostImages } from '../interfaces/postimage';
 import { LoadingController } from '@ionic/angular';
+import { Users } from '../interfaces/users';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,11 @@ export class GlobalService {
   isFollowing(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}is-following/${userId}`);
   }
+  // Methide pour afficher les analyst de son chois
+  getUserIsAnalyste(): Observable<any> {
+    return this.http.get(`${this.apiUrl}choose-analyst`);
+  }
+
   decodeImages(images: string | PostImages[] | null): PostImages[] {
     if (!images) {
       return [];

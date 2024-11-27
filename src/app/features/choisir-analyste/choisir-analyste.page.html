@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Choisissez vos analystes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="skipSelection()">
+        Passer
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="instructions ion-text-center ion-margin-bottom">
+    <p>
+      Sélectionnez jusqu'à <strong>3 analystes</strong> à suivre<br />
+      <small class="text-muted">Cette étape est optionnelle</small>
+    </p>
+  </div>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="4" *ngFor="let artist of analyst">
+        <ion-card
+          class="analyst-card"
+          [class.selected]="selectedArtists.includes(artist)"
+          (click)="toggleArtistSelection(artist)"
+        >
+          <div class="avatar-container">
+            <img src="assets/avatars/avatar-man.png" alt="{{ artist.name }}" />
+            <div class="selection-indicator">
+              <ion-icon name="checkmark-circle"></ion-icon>
+            </div>
+          </div>
+          <ion-card-content>
+            <h3>{{ artist.name }}</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-padding">
+    <ion-button
+      expand="block"
+      [disabled]="selectedArtists.length === 0"
+      (click)="confirmSelection()"
+      class="confirm-button"
+    >
+      Confirmer ({{selectedArtists.length}}/3)
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+<!-- CSS -->
+<style></style>

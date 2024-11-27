@@ -27,9 +27,14 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const user = this.loginForm.value;
       this.authService.login(user).subscribe({
-        next: (response) => {
-          console.log('Utilisateur connecté', response.data);
-          this.router.navigate(['/tabs/home']);
+        next: () => {
+          this.authService.getInfoUser();
+          // console.log(this.authService.userInfo);
+          if (this.authService.userInfo?.first_connexion === 0) {
+            this.router.navigate(['/choisir-analyste']);
+          } else {
+            this.router.navigate(['/tabs/home']);
+          }
         },
         error: (error) => {
           console.error('Erreur lors de la connexion', error);

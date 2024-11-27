@@ -68,6 +68,14 @@ const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'choisir-analyste',
+    loadChildren: () =>
+      import('./features/choisir-analyste/choisir-analyste.module').then(
+        (m) => m.ChoisirAnalystePageModule
+      ),
+    canActivate: [authGuard],
+  },
 ];
 @NgModule({
   imports: [

@@ -18,9 +18,18 @@
           <ion-input
             type="text"
             formControlName="name"
-            placeholder="Ex:Ouedraogo Aziz"
+            placeholder="Ex: Ouedraogo Aziz"
           ></ion-input>
         </ion-item>
+        <div
+          *ngIf="registerForm.get('name')?.hasError('serverError')"
+          class="error-message"
+        >
+          <ion-text color="danger">
+            <p>{{ registerForm.get('name')?.getError('serverError') }}</p>
+          </ion-text>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Email</ion-label>
           <ion-input
@@ -29,6 +38,15 @@
             placeholder="Ex: aziz@gmail.com"
           ></ion-input>
         </ion-item>
+        <div
+          *ngIf="registerForm.get('email')?.hasError('serverError')"
+          class="error-message"
+        >
+          <ion-text color="danger">
+            <p>{{ registerForm.get('email')?.getError('serverError') }}</p>
+          </ion-text>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Mot de passe</ion-label>
           <ion-input
@@ -37,6 +55,15 @@
             placeholder="******"
           ></ion-input>
         </ion-item>
+        <div
+          *ngIf="registerForm.get('password')?.hasError('serverError')"
+          class="error-message"
+        >
+          <ion-text color="danger">
+            <p>{{ registerForm.get('password')?.getError('serverError') }}</p>
+          </ion-text>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Confirmez le mot de passe</ion-label>
           <ion-input
@@ -45,6 +72,19 @@
             placeholder="******"
           ></ion-input>
         </ion-item>
+        <div
+          *ngIf="registerForm.get('password_confirmation')?.hasError('serverError')"
+          class="error-message"
+        >
+          <ion-text color="danger">
+            <p>
+              {{
+              registerForm.get('password_confirmation')?.getError('serverError')
+              }}
+            </p>
+          </ion-text>
+        </div>
+
         <ion-radio-group formControlName="role">
           <ion-list-header class="ion-margin-top"
             >Inscrivez-vous en tant que:</ion-list-header
@@ -67,6 +107,7 @@
           </ion-grid>
         </ion-radio-group>
       </ion-list>
+
       <ion-button
         type="submit"
         expand="block"
@@ -77,6 +118,7 @@
         S'inscrire
       </ion-button>
     </form>
+
     <p class="ion-text-center ion-margin-top">
       Déjà inscrit ?
       <a [routerLink]="['/login']" class="link-warning">Connectez-vous</a>
